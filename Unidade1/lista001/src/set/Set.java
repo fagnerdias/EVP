@@ -31,6 +31,8 @@ public class Set {
     a.add(x);
   }
   
+  
+  
   public boolean member(int x) {
     for (int i = 0; i < a.size(); i++) {
       if (a.get(i) > x) {
@@ -44,6 +46,7 @@ public class Set {
     return false;
   }
 
+  
   public void section(Set s) {
     for (int i = 0, j = 0; i < a.size() && j < s.a.size();) {
       if (a.get(i).equals(s.a.get(j))) {
@@ -59,6 +62,7 @@ public class Set {
       }
     }
   }
+  
 
   public boolean containsArithTriple() {
     for (int i = 0; i < a.size(); i++) {
