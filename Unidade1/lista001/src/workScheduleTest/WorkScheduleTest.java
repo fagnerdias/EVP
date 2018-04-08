@@ -1,5 +1,6 @@
 package workScheduleTest;
 
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
@@ -9,7 +10,9 @@ import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;;
+import org.junit.runners.Parameterized.Parameters;
+
+import com.workschedule.src.WorkSchedule;
 
 @RunWith(Parameterized.class)
 class WorkScheduleTest {

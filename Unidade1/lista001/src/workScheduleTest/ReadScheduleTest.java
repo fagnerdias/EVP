@@ -12,6 +12,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
+import com.workschedule.src.WorkSchedule;
+
 @RunWith(Parameterized.class)
 class ReadScheduleTest {
 	public int time;
