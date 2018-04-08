@@ -17,14 +17,14 @@ public class BinarySearchTest {
    **/
   public static boolean search(int[] array, int value) {
     int left = 0;
-    int right = array.length - 1;
+    int right = array.length-1;
     while (left <= right) {
       int index = (right + left) / 2;
       if (array[index] == value)
         return true;
-      if (array[index] < value)
+      if (array[index] > value) {
         right = index - 1;
-      else
+      }else
         left = index + 1;
     }
     return false;
@@ -39,25 +39,38 @@ public class BinarySearchTest {
   }
 
   public static int[] generateArray(int length) {
-    // TODO: generate array.
-    return null;
+	  int[] res;
+	  res = new int[length];
+	  int lowerBound = 0;
+	  for(int i = 0 ; i < length; i++ ) {
+		  lowerBound = lowerBound + rand.nextInt(length);
+		  res[i] = lowerBound;
+	  }
+
+    return res;
   }
 
   public static int pickElementFrom(int[] array) {
-    // TODO: pick random element from array.
-    return 0;
+	  int elem  = rand.nextInt(array.length);
+    return array[elem];
   }
 
   public static int pickElementOutside(int[] array) {
-    // TODO: pick random value unequal to any value in the array.
-    return 0;
+	  int elem  = array.length - 1;
+	  int res = array[elem];
+	  res = res + 3;
+	  return res;
   }
 
   public static boolean test(int[] array, int value) {
     try {
-      // TODO: check that the function 'search' gives the same result as
-      // the function 'contains'.
-      return false;
+    	boolean s = search(array, value);
+    	boolean c = contains(array, value);
+    	if(s == c ) {
+    		return true;
+    	}else{
+    		return false;
+    	}
     } catch (Exception e) {
       e.printStackTrace();
       return false;

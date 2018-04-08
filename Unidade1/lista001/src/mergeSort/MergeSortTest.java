@@ -23,7 +23,7 @@ public class MergeSortTest {
     }
 
     int m = (from + to) / 2;
-    int[] left = sort(array, from, m - 1);
+    int[] left = sort(array, from, m);
     int[] right = sort(array, m + 1, to);
 
     int[] result = new int[left.length + right.length];
@@ -44,25 +44,42 @@ public class MergeSortTest {
   }
 
   public static boolean isSorted(int[] array) {
-    // TODO return true if array is sorted.
-    return false;
+    for(int i = 1; i< array.length; i++) {
+    	if(array[i] < array[i-1]) {
+    		return false;
+    	}
+    }
+    return true;
   }
 
   public static boolean isPermutation(int[] arrayA, int[] arrayB) {
-    // TODO return true if arrayA and arrayB are a permutation of each other.
-    return false;
+    if(arrayA.length != arrayB.length)
+    	return false;
+    for(int i = 0; i < arrayA.length; i++) {
+    	for(int j = 0; j< arrayB.length; j++) {
+    		if(arrayA[i] == arrayB[j]){
+    			break;
+    		}
+    		if(j == arrayB.length-1) {
+    			return false;
+    		}
+    	}
+    }
+    return true;
   }
 
   public static int[] generate(int length) {
-    // TODO generate array.
-    return null;
+	  int[] arrayAleatorio = new int[length];
+	    for(int i = 0; i < length; i++) {
+	    	arrayAleatorio[i] = rand.nextInt(100);
+	    }
+	    return arrayAleatorio;
   }
 
   public static boolean test(int[] array) {
     try {
-      // TODO call the sort function and check that result is
-      // indeed the sorted version of the input array.
-      return false;
+      int[] arrayA = sort(array);
+      return isSorted(arrayA) && isPermutation(arrayA, array);
     } catch (Exception e) {
       e.printStackTrace();
       return false;
