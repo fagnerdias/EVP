@@ -31,8 +31,6 @@ public class Set {
     a.add(x);
   }
   
-  
-  
   public boolean member(int x) {
     for (int i = 0; i < a.size(); i++) {
       if (a.get(i) > x) {
@@ -70,6 +68,7 @@ public class Set {
         if (member(2 * a.get(i) - a.get(j))) return true;
       }
     }
+    
     return false;
   }    
 }
