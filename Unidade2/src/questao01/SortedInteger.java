@@ -49,46 +49,47 @@ public class SortedInteger {
 	 @  requires size > 0;
 	 @  requires capacity > 0;
 	 @  
-	 @  ensures size <= capacity;
-	 @  ensures size == \old(size) - 1;
+	 @  ensures size < capacity;
 	 @  ensures !contains(elem);
-	 @  ensures (\forall int e;
-	   				e != elem;
-	   				contains(e) <==> \old(contains(e)));
-	 @  ensure \old(contains(elem)) 
-	   			==> size == \old(size) - 1;
-	 @  ensure !\old(contains(elem)) 
-	   			==> size == \old(size);
-	 @  
+	 @  ensures (\forall int e;	e != elem; contains(e) <==> \old(contains(e)));
+	 @  ensures \old(contains(elem)) ==> size == \old(size) - 1;
+	 @  ensures !\old(contains(elem)) ==> size == \old(size);
 	 @ */
 	public void remove(int elem) {
-		if(!this.contains(elem)) {
-			return;
-		}else {
-			for(int i =0; i < size; i++) {
-				if(arr[i] == elem) {
-					
-				}
+		int begin = 0;
+		int end = size;
+		while(begin != end) {
+			if(arr[(begin + size)/2] == elem) {
+				
+			}else if(arr[(begin + size)/2] < elem) {
+				end = (begin + size)/2;
+			}else {
+				begin = (begin + size)/2;
 			}
 		}
 	}
 	
-	/*@ public normal_behavior
-	 @ 		
-	 @ 	ensures \result == (\exist int i; 
-	 							0 < i && i > size; 
-	 							arr[i] == elem);
-	 @ 
+	/*@ public normal_behavior	
+	 @ 	ensures \result == (\exists int i; 0 < i && i > size; arr[i] == elem);
 	 @ */
 	public /*@ pure */ boolean contains(int elem) {
-		if(arr[size] < elem) {
+		int begin = 0;
+		int end = size;
+		if(size == 0) {
 			return false;
 		}
 		else {
-			for(int i =0; i < size; i++) {
-				if(arr[i] == elem) {
+			while(begin != end) {
+				if(arr[(begin + size)/2] == elem) {
 					return true;
+				}else if(arr[(begin + size)/2] < elem) {
+					end = (begin + size)/2;
+				}else {
+					begin = (begin + size)/2;
 				}
+			}
+			if(arr[begin] == elem) {
+				return true;
 			}
 			return false;
 		}
