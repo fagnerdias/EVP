@@ -65,28 +65,39 @@ public class SortedInteger {
 	/*@ public normal_behavior
 	 @  requires size > 0;
 	 @  requires capacity > 0;
+	 @  requires 
 	 @  
 	 @  ensures size < capacity;
-	 @  ensures !contains(elem);
 	 @  ensures (\forall int e;	e != elem; contains(e) <==> \old(contains(e)));
 	 @  ensures \old(contains(elem)) ==> size == \old(size) - 1;
 	 @  ensures !\old(contains(elem)) ==> size == \old(size); 
+	 @
 	 @ */
 	public void remove(int elem) {
-		int begin = 0;
-		int end = size;
-		int m;
-		while(begin != end) {
-			m = (begin + end)/2;
-			if(arr[m] == elem) {
+//		int begin = 0;
+//		int end = size;
+//		int m;
+//		while(begin != end) {
+//			m = (begin + end)/2;
+//			if(arr[m] == elem) {
+//				size--;
+//				for(int i=m; i< size;i++) {
+//					arr[i] = arr[i+1];									
+//				}
+//			}else if(arr[m] > elem) {
+//				end = m;
+//			}else {
+//				begin = m;
+//			}
+//		}
+		
+		for(int i = 0; i < size; i++) {
+			if(arr[i] == elem) {
 				size--;
 				for(int i=m; i< size;i++) {
 					arr[i] = arr[i+1];									
 				}
-			}else if(arr[m] > elem) {
-				end = m;
-			}else {
-				begin = m;
+				break;
 			}
 		}
 	}
@@ -95,34 +106,17 @@ public class SortedInteger {
 	 @ 	ensures \result == (\exists int i; 0 < i && i > size; arr[i] == elem);
 	 @ */
 	public /*@ pure */ boolean contains(int elem) {
-		int begin = 0;
-		int end = size-1;
-		int m;
-		if(size == 0) {
-			return false;
-		}
-		else {
-			while(begin < end) {
-				m = (begin + end)/2;
-				if(arr[m] == elem) {
-					return true;
-				}else if(arr[m] > elem) {
-					end = m;
-				}else {
-					begin = m;
-				}
-			}
-			if(arr[begin] == elem) {
+		for(int i = 0; i < size; i++) {
+			if(arr[i] == elem) {
 				return true;
 			}
-			return false;
 		}
-		
+		return false;
 	}
 	
 	/*@ public normal_behavior
 	 @ 	
-	 @ 	requires size != 0;
+	 @ 	requires size > 0;
 	 @ 
 	 @  ensures \result == arr[size];
 	 @ 
@@ -146,8 +140,11 @@ public class SortedInteger {
 	}
 	
 	public String toString() {
-	// ...
-		return null;
+		String vector = "";
+		for(int i = 0 ; i < size; i++ ) {
+			vector += i + ": " + arr[i] + "; ";
+		}
+		return vector;
 	}
 
 }
