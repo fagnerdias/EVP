@@ -12,6 +12,10 @@ public class SortedInteger {
 	private /*@ spec_public @*/ int arr[];
 	private /*@ spec_public @*/ int capacity, size = 0;
 	
+	/*@ public normal_behavior
+	 @  requires capacity > 0;
+	 @  ensures arr.length == capacity;
+	 @ */
 	public SortedInteger(int capacity) {
 		this.capacity = capacity;
 		this.arr = new int[capacity];
@@ -19,6 +23,7 @@ public class SortedInteger {
 	
 	/*@ public normal_behavior
 	 @  requires size < capacity;
+	 @  requires elem != null;
 	 @  
 	 @  ensures size <= capacity;
 	 @  ensures size == \old(size) + 1;
@@ -30,15 +35,27 @@ public class SortedInteger {
 	 @ */
 	public void add(int elem) {
 		if(size < capacity) {
-			if(arr[size] < elem) {
-				size++;
+			size++;
+			if(arr[size-1] < elem) {
 				arr[size] = elem;
 			}else if(arr[0] > elem) {
-				//TODO
-			}else {
+				int aux = elem;
+				int aux1;
 				for(int i=0; i< size;i++) {
-					if(arr[i] < elem && elem > arr[i+1] ) {
-						//TODO
+					aux1 = arr[i];
+					arr[i] = aux;
+					aux = aux1;										
+				}
+			}else {
+				for(int i=1; i< size-2;i++) {
+					if(arr[i] <= elem && elem > arr[i+1] ) {
+						int aux = elem;
+						int aux1;
+						for(int j=i+1; j< size;i++) {
+							aux1 = arr[j];
+							arr[j] = aux;
+							aux = aux1;										
+						}
 					}
 				}
 			}
@@ -53,18 +70,23 @@ public class SortedInteger {
 	 @  ensures !contains(elem);
 	 @  ensures (\forall int e;	e != elem; contains(e) <==> \old(contains(e)));
 	 @  ensures \old(contains(elem)) ==> size == \old(size) - 1;
-	 @  ensures !\old(contains(elem)) ==> size == \old(size);
+	 @  ensures !\old(contains(elem)) ==> size == \old(size); 
 	 @ */
 	public void remove(int elem) {
 		int begin = 0;
 		int end = size;
+		int m;
 		while(begin != end) {
-			if(arr[(begin + size)/2] == elem) {
-				
-			}else if(arr[(begin + size)/2] < elem) {
-				end = (begin + size)/2;
+			m = (begin + end)/2;
+			if(arr[m] == elem) {
+				size--;
+				for(int i=m; i< size;i++) {
+					arr[i] = arr[i+1];									
+				}
+			}else if(arr[m] > elem) {
+				end = m;
 			}else {
-				begin = (begin + size)/2;
+				begin = m;
 			}
 		}
 	}
@@ -74,18 +96,20 @@ public class SortedInteger {
 	 @ */
 	public /*@ pure */ boolean contains(int elem) {
 		int begin = 0;
-		int end = size;
+		int end = size-1;
+		int m;
 		if(size == 0) {
 			return false;
 		}
 		else {
-			while(begin != end) {
-				if(arr[(begin + size)/2] == elem) {
+			while(begin < end) {
+				m = (begin + end)/2;
+				if(arr[m] == elem) {
 					return true;
-				}else if(arr[(begin + size)/2] < elem) {
-					end = (begin + size)/2;
+				}else if(arr[m] > elem) {
+					end = m;
 				}else {
-					begin = (begin + size)/2;
+					begin = m;
 				}
 			}
 			if(arr[begin] == elem) {
